@@ -84,7 +84,9 @@ limitations under the License.
           dataType: 'json',
           url: 'http://boatlifedev.herokuapp.com/api/v1/photos',
           data: {
-            "per_page": 15
+            per_page: 15,
+            height: screen.height,
+            width: screen.width
           },
           success: function(data){
             var counter = 0;
