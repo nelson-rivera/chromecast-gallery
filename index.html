@@ -19,25 +19,13 @@ limitations under the License.
     <style type="text/css">
 	  body {
 	    overflow:hidden;
+      transition: background 2s ease-in-out;
 	  }
-      div{
-	    height:720PX;
-	    width:1280PX;
-	    text-align:center;
-	    border:0px solid silver;
-	    display: table-cell;
-	    vertical-align:middle;
-	    color:#FFFFFF;
-	    background-color:#000000;
-	    font-weight:bold;
-	    font-family:Verdana, Geneva, sans-serif;
-	    font-size:40px;
-	}
     </style>
     <title>Cast Hello Text</title>
   </head>
   <body>
-	<DIV id="message">Talk to me</DIV>
+	<div id="message">Talk to me</div>
     <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script type="text/javascript">
@@ -99,10 +87,13 @@ limitations under the License.
             "height": 720
           },
           success: function(data){
-            console.log(data);
+            var counter = 0;
+            setInterval(function(){
+              $('body').css('background-image', 'url("'+data[counter].image+'")');
+              counter++;
+            }, 7000);
           }
         });
-        $('body').css('background','red');
       };
 
       // utility function to display the text message in the input field
