@@ -24,7 +24,7 @@ limitations under the License.
     <title>Cast Hello Text</title>
   </head>
   <body>
-	<div id="message">Talk to me</div>
+	<div id="message"></div>
     <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script type="text/javascript">
@@ -81,9 +81,7 @@ limitations under the License.
           dataType: 'json',
           url: 'http://boatlifedev.herokuapp.com/api/v1/photos',
           data: {
-            "per_page": 15,
-            "width": 1880,
-            "height": 720
+            "per_page": 15
           },
           success: function(data){
             var counter = 0;
