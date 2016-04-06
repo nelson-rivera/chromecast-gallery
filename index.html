@@ -90,6 +90,18 @@ limitations under the License.
         // initialize the CastReceiverManager with an application status message
         window.castReceiverManager.start({statusText: "Application is starting"});
         console.log('Receiver Manager started');
+        $.ajax({
+          dataType: 'json',
+          url: 'http://boatlifedev.herokuapp.com/api/v1/photos',
+          data: {
+            "per_page": 10,
+            "width": 1280,
+            "height": 720
+          },
+          success: function(data){
+            console.log(data);
+          }
+        });
         $('body').css('background','red');
       };
 
