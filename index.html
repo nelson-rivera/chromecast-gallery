@@ -85,47 +85,96 @@ limitations under the License.
         // initialize the CastReceiverManager with an application status message
         window.castReceiverManager.start({statusText: "Application is starting"});
         console.log('Receiver Manager started');
-        console.log({
-          per_page: 15,
-          height: screen.height,
-          width: screen.width
-        });
-        $.ajax({
-          dataType: 'json',
-          url: 'http://boatlifedev.herokuapp.com/api/v1/photos',
-          data: {
-            per_page: 15,
-            height: screen.height,
-            width: screen.width
-          },
-          success: function(data){
-            var counter = 0;
-            preload(data);
 
-            setInterval(function(){
-              $('body').css('background-image', 'url("'+data[counter].image+'")');
-              counter++;
-            }, 7000);
+        var imageArray = null;
+        var counter = 0;
+
+        // setInterval(function(){
+        //   if(counter === 0) {
+        //     var imagesRequest = requestImages();
+        //     imagesRequest.then(function(data){
+        //       preload(data);
+        //       imageArray = data;
+        //     });
+        //   }
+        //   else if(counter >= 15) {
+        //     counter = 0;
+        //   }
+        //   else {
+        //     if(!imageArray){
+        //
+        //     }
+        //     $('body').css('background-image', 'url("'+data[counter].image+'")');
+        //     counter++;
+        //   }
+        //
+        // }, 7000);
+        (function startSlide() {
+          if(counter === 0) {
+            var imagesRequest = requestImages();
+            imagesRequest.then(function(data){
+              preload(data);
+              imageArray = data;
+            });
+            updateImage(imageArray[counter].image);
+            counter++;
           }
-        });
+          else if(counter >= 3) {
+            counter = 0;
+            return startSlide();
+          }
+          else {
+            if(!imageArray){
+              console.log('not yet loaded');
+              return startSlide();
+            }
+            else{
+              updateImage(imageArray[counter].image);
+              counter++;
+            }
+          }
+          setTimeout(startSlide, 7000);
+        })();
+
+        // utility function to display the text message in the input field
+        function displayText(text) {
+          console.log(text);
+          document.getElementById("message").innerHTML=text;
+          window.castReceiverManager.setApplicationState(text);
+        };
+
+        function updateImage(image) {
+          $('body').css('background-image', 'url("'+image+'")');
+        }
+
+        function preload(imageArray, index) {
+          var index = index || 0;
+          if (imageArray && imageArray.length > index) {
+              var img = new Image ();
+              img.onload = function() {
+                  preload(imageArray, index + 1);
+              }
+              img.src = imageArray[index].image;
+          }
+        }
+
+        function requestImages() {
+          return $.ajax({
+            dataType: 'json',
+            url: 'http://boatlifedev.herokuapp.com/api/v1/photos',
+            data: {
+              per_page: 3,
+              height: screen.height,
+              width: screen.width
+            }
+          });
+        }
+
+
+
       };
 
-      // utility function to display the text message in the input field
-      function displayText(text) {
-        console.log(text);
-        document.getElementById("message").innerHTML=text;
-        window.castReceiverManager.setApplicationState(text);
-      };
-      function preload(imageArray, index) {
-        var index = index || 0;
-        if (imageArray && imageArray.length > index) {
-            var img = new Image ();
-            img.onload = function() {
-                preload(imageArray, index + 1);
-            }
-            img.src = imageArray[index].image;
-        }
-      }
+
     </script>
   </body>
 </html>
