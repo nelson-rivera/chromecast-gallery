@@ -115,8 +115,8 @@ limitations under the License.
             imagesRequest.then(function(data){
               preload(data);
               imageArray = data;
+              updateImage(imageArray[counter].image);
             });
-            updateImage(imageArray[counter].image);
             counter++;
           }
           else if(counter >= 3) {
