@@ -31,6 +31,7 @@ limitations under the License.
     <title>Cast Hello Text</title>
   </head>
   <body>
+  <img id="img-container"/>
 	<div id="message"></div>
     <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -98,7 +99,8 @@ limitations under the License.
             width: screen.width
           },
           success: function(data){
-            var counter = 0;
+            preload(data);
+
             setInterval(function(){
               $('body').css('background-image', 'url("'+data[counter].image+'")');
               counter++;
@@ -113,6 +115,16 @@ limitations under the License.
         document.getElementById("message").innerHTML=text;
         window.castReceiverManager.setApplicationState(text);
       };
+      function preload(imageArray, index) {
+        var index = index || 0;
+        if (imageArray && imageArray.length > index) {
+            var img = new Image ();
+            img.onload = function() {
+                preload(imageArray, index + 1);
+            }
+            img.src = images[index].image;
+        }
+      }
     </script>
   </body>
 </html>
