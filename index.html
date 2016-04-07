@@ -116,8 +116,8 @@ limitations under the License.
               preload(data);
               imageArray = data;
               updateImage(imageArray[counter].image);
+              counter++;
             });
-            counter++;
           }
           else if(counter >= 3) {
             counter = 0;
@@ -169,9 +169,6 @@ limitations under the License.
             }
           });
         }
-
-
-
       };
 
 
